@@ -40,7 +40,7 @@
     <div id="loading">LOADING</div>
   </div>
 
-  <div id="welcome-container">
+  <div id="welcome-container" role="main">
     <img src="/images/michigan_moonshot_speedtest_header_small.jpg" alt="The Michigan Moonshot" class="banner">
     <div class="logos">
       <img src="/images/Michigan_State_University_logo_green.png" alt="Michigan State University logo" class="msu-logo" />
@@ -549,19 +549,19 @@
                           <!-- Social Button HTML -->
                           {% if social_share_twitter is not none -%}
                           <!-- Twitter -->
-                          <a href="{{ social_share_twitter }}"" target=" _blank" class="share-btn twitter">
+                          <a href="{{ social_share_twitter }}"" target=" _blank" class="share-btn twitter" aria-label="Share on Twitter">
                             <i class="fa fa-twitter"></i>
                           </a>
                           {% endif %}
                           {%- if social_share_facebook is not none -%}
                           <!-- Facebook -->
-                          <a href="{{ social_share_facebook }}" target="_blank" class="share-btn facebook">
+                          <a href="{{ social_share_facebook }}" target="_blank" class="share-btn facebook" aria-label="Share on Facebook">
                             <i class="fa fa-facebook"></i>
                           </a>
                           {% endif %}
                           {%- if social_share_linkedin is not none -%}
                           <!-- LinkedIn -->
-                          <a href="{{ social_share_linkedin }}" target="_blank" class="share-btn linkedin">
+                          <a href="{{ social_share_linkedin }}" target="_blank" class="share-btn linkedin" aria-label="Share on LinkedIn">
                             <i class="fa fa-linkedin"></i>
                           </a>
                           {% endif %}
@@ -576,9 +576,7 @@
         </div>
       </form>
       <div id="icons">
-        <div id="take-test" onclick="runTest()">
-          <span class="button-label">{{ icon_test_label }}</span>
-        </div>
+        <button type="button" class="btn btn-primary btn-lg" id="take-test" onclick="runTest()">{{ icon_test_label }}</button>
       </div>
     </div>
   </div>
@@ -599,9 +597,26 @@
     uncheckAcknowledgement();
 
     NDT_meter = new NDTmeter('#ndt-svg');
-    NDT_meter.meter.on("click", function () {
+
+    function handleStartEvents() {
       NDT_client = new NDTjs(ndtServer, ndtPort, ndtProtocol, ndtPath, NDT_meter, ndtUpdateInterval);
       NDT_client.startTest();
+    }
+
+    NDT_meter.meter.on("click", function (evt) {
+      handleStartEvents();
+    });
+
+    /**
+     * We can't consistently target SVG for events, so listen
+     * to all of them and check the key and target.
+     */
+    $(window).on('keypress', function(evt) {
+      var keyCodes = [13, 32];
+
+      if ((evt.target == $('#ndt-svg svg')[0]) && (keyCodes.includes(evt.which))) {
+        handleStartEvents();
+      }
     });
 
     if ("geolocation" in navigator) {

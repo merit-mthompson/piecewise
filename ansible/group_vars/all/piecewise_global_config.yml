@@ -598,7 +598,7 @@ form_fields:
       field_type: select_list
       db_type: String
       name: survey_connection_type
-      id: survey_wifi
+      id: survey_connection_type
       class: ""
       text: "To the best of your knowledge, how do you currently get Internet access at this property? Choose one."
       title: "To the best of your knowledge, how do you currently get Internet access at this property? Choose one."
