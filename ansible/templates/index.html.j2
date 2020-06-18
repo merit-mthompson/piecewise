@@ -377,31 +377,29 @@
         <div id="extra-data" class="ndt-related">
           <div class="container" id="all-form-fields">
             {% for item, field in form_fields.items() -%}
-            {% for attr, vals in field.items() -%}
-            <div class="form-field" id="container-{{ vals['id'] }}">
-              <div class="field-container">
-                <label for="{{ vals['name'] }}">
-                  {{ vals['text'] }}
-                </label>
+              {% for attr, vals in field.items() -%}
+              <div class="form-field" id="container-{{ vals['id'] }}">
+                <div class="field-container">
+                  <label for="{{ vals['id'] }}">{{ vals['text'] }}</label>
+                </div>
+                <div class="field-container">
+                  {% if vals['field_type'] == 'select_list' -%}
+                  <select id="{{ vals['id'] }}" name="{{ vals['name'] }}" class="form-control {{ vals['class'] }}" title="{{ vals['title'] }}">
+                    {% for opt, item in vals.options.items() | sort -%}
+                      <option value="{{ opt }}" {% if opt == 'default' %}selected{% endif %}>{{ item }}</option>
+                    {%- endfor -%}
+                  </select>
+                  {% elif vals['field_type'] == 'text' -%}
+                    <input id="{{ vals['id'] }}" type="text" name="{{ vals['name'] }}"
+                      class="form-control {{ vals['class'] }}" {% if vals['size'] is defined %} size="{{ vals['size'] }}" {% endif %} title="{{ vals['title'] }}" />
+                  {% elif vals['field_type'] == 'checkbox' %}
+                    {% for opt, item in vals.options.items() | sort -%}
+                      <input type="checkbox" value="{{ vals['id'] }}[{{ opt }}]" {% if opt == 'default' %}selected{% endif %}>{{ item }}</input>
+                    {%- endfor -%}
+                  {% endif -%}
+                </div>
               </div>
-              <div class="field-container">
-                {% if vals['field_type'] == 'select_list' -%}
-                <select id="{{ vals['id'] }}" name="{{ vals['name'] }}" class="form-control {{ vals['class'] }}" title="{{ vals['title'] }}">
-                  {% for opt, item in vals.options.items() | sort -%}
-                  <option value="{{ opt }}" {%- if opt == 'default' %} selected {%- endif -%}>{{ item }}</option>
-                  {%- endfor -%}
-                </select>
-                {% elif vals['field_type'] == 'text' -%}
-                <input id="{{ vals['id'] }}" type="text" name="{{ vals['name'] }}" class="form-control {{ vals['class'] }}" {%- if vals['size'] is defined %}
-                  size="{{ vals['size'] }}" {%- endif -%} title="{{ vals['title'] }}" />
-                {% elif vals['field_type'] == 'checkbox' %}
-                {% for opt, item in vals.options.items() | sort -%}
-                <input type="checkbox" value="{{ vals['id'] }}[{{ opt }}]" {%- if opt == 'default' %} selected {%- endif -%}>{{ item }}</input>
-                {%- endfor -%}
-                {% endif -%}
-              </div>
-            </div>
-            {% endfor -%}
+              {% endfor -%}
             {% endfor -%}
           </div>
 
@@ -544,7 +542,7 @@
                           <!-- Social Button HTML -->
                           {% if social_share_twitter is not none -%}
                           <!-- Twitter -->
-                          <a href="{{ social_share_twitter }}"" target=" _blank" class="share-btn twitter" aria-label="Share on Twitter">
+                          <a href="{{ social_share_twitter }}" target=" _blank" class="share-btn twitter" aria-label="Share on Twitter">
                             <i class="fa fa-twitter"></i>
                           </a>
                           {% endif %}
