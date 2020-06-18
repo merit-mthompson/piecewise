@@ -280,7 +280,6 @@ label input[type="checkbox"] {
   font-size: 18px !important;
   font-weight: 300 !important;
   padding: 2rem 4rem;
-  text-transform: uppercase;
   transition: all 120ms linear;
 }
 
