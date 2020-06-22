@@ -24,9 +24,7 @@ var autocompleteFields = {
     {'administrative_area_level_1': 'short_name'}
   ],
   'survey_zip_id': [
-    {'postal_code': 'short_name'},
-    '-',
-    {'postal_code_suffix': 'short_name'}
+    {'postal_code': 'short_name'}
   ]
 };
 
