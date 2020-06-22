@@ -824,7 +824,8 @@ $( document ).ready(function() {
     evt.preventDefault();
   });
 
-  $('#autocomplete').on('focus', geolocate());
+  // Use geolocation to fence autocomplete (see google-places.js)
+  $('#survey_address_line_1_id').on('focus', geolocate());
 
   let participant_id = window.location.pathname.split('/')[1];
   if (participant_id !== "") {
